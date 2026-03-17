@@ -11,8 +11,8 @@ type habitRepository struct {
 	db *pgxpool.Pool
 }
 
-func NewHabitsRepository(db *pgxpool.Pool) *habitRepository {
-	return &habitRepository{
+func NewHabitsRepository(db *pgxpool.Pool) habitRepository {
+	return habitRepository{
 		db: db,
 	}
 }
@@ -28,14 +28,14 @@ func (r *habitRepository) CreateHabit(ctx context.Context, habit *habits.Habit) 
 	return nil
 }
 
-func (r *habitRepository) GetHabit(ctx context.Context, habitLabel string) (*habits.Habit, error) {
+func (r *habitRepository) GetHabit(ctx context.Context, habitLabel string, userID int) (*habits.Habit, error) {
 	query := `SELECT id, user_id, key_name, type, label, emoji, order_index, active, created_at, updated_at 
-						FROM habits WHERE label = $1`
+						FROM habits WHERE key_name = $1 AND user_id = $2`
 
 	var habit habits.Habit
 	err := r.db.QueryRow(ctx, query, habitLabel).Scan(&habit.ID, &habit.UserID, &habit.KeyName, &habit.Type, &habit.Label, &habit.Emoji, &habit.OrderIndex, &habit.Active, &habit.CreatedAt, &habit.UpdatedAt)
 	if err != nil {
-		return &habits.Habit{}, err
+		return nil, err
 	}
 
 	return &habit, nil
@@ -59,6 +59,9 @@ func (r *habitRepository) GetHabits(ctx context.Context, userID int) ([]habits.H
 			return nil, err
 		}
 		allHabits = append(allHabits, singleHabit)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
 	}
 
 	return allHabits, nil
