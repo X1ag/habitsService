@@ -8,6 +8,13 @@ import (
 
 type Config struct {
 	DB PostgresConfig	
+	Google GoogleConfig
+}
+
+type GoogleConfig struct {
+	ClientID string `env:"GOOGLE_CLIENT_ID" envDefault:""`
+	ClientSecret string `env:"GOOGLE_CLIENT_SECRET" envDefault:""`
+	RedirectURL string `env:"REDIRECT_URL" envDefault:""`
 }
 
 type PostgresConfig	struct {

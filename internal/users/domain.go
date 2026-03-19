@@ -13,3 +13,18 @@ type User struct {
 	CreatedAt time.Time `json:"created_at"`
 	UpdatedAt time.Time `json:"updated_at"`
 }
+
+type Session struct {
+	UserID int `json:"user_id"`
+	ExpiresAt time.Time `json:"expires_at"`
+	CreatedAt time.Time `json:"created_at"`
+	UpdatedAt time.Time `json:"updated_at"`
+}
+
+type Claims struct {
+		Sub string `json:"sub"`
+		Email string `json:"email"`
+		Name string `json:"name"`
+		EmailVerified bool `json:"email_verified"`
+		Picture string `json:"picture"`
+	}

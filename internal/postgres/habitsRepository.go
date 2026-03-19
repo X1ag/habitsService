@@ -11,8 +11,8 @@ type habitRepository struct {
 	db *pgxpool.Pool
 }
 
-func NewHabitsRepository(db *pgxpool.Pool) habitRepository {
-	return habitRepository{
+func NewHabitsRepository(db *pgxpool.Pool) *habitRepository {
+	return &habitRepository{
 		db: db,
 	}
 }

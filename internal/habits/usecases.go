@@ -11,8 +11,8 @@ type HabitUsecase struct {
 	repo Repository
 }
 
-func NewHabitUsecase(repo Repository) *HabitUsecase {
-	return &HabitUsecase{
+func NewHabitUsecase(repo Repository) HabitUsecase {
+	return HabitUsecase{
 		repo: repo,
 	}
 }
